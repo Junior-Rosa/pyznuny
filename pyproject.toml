@@ -1,6 +1,6 @@
 [project]
-name = "py-znuny"
-version = "0.1.0"
+name = "pyznuny"
+version = "0.0.1"
 description = "A Python client for interacting with the Znuny ticketing system API."
 authors = [
     { name = "Junior Rosa", email = "jr.dasrosas@gmail.com" },
@@ -23,11 +23,16 @@ dev = [
     "linkify-it-py>=2.0.3",
     "myst-parser>=5.0.0",
     "pytest>=9.0.2",
+    "python-dotenv>=1.2.1",
     "ruff>=0.14.13",
     "sphinx>=9.1.0",
     "sphinx-autodoc-typehints>=3.6.2",
     "sphinx-rtd-theme>=3.1.0",
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
 
 [tool.ruff]
 line-length = 88

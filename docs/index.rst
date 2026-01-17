@@ -1,4 +1,4 @@
-py-znuny
+pyznuny
 ========
 
 Documentacao gerada automaticamente a partir das docstrings do projeto.
