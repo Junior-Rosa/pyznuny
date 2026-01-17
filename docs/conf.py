@@ -1,31 +1,52 @@
-# Configuration file for the Sphinx documentation builder.
-#
-# For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+from __future__ import annotations
 
-# -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+import sys
+from pathlib import Path
 
-project = 'py-znuny'
-copyright = '2026, Junior Rosa, Pablo Gascon'
-author = 'Junior Rosa, Pablo Gascon'
-release = '0.1.0'
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src"
+sys.path.insert(0, str(SRC))
 
-# -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+project = "py-znuny"
+author = "Junior Rosa, Pablo Gascon"
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # pragma: no cover - for older runtimes
+    tomllib = None
+
+release = "0.0.0"
+if tomllib is not None:
+    try:
+        with (ROOT / "pyproject.toml").open("rb") as handle:
+            release = tomllib.load(handle)["project"]["version"]
+    except (FileNotFoundError, KeyError, OSError, ValueError):
+        pass
 
 extensions = [
-    'sphinx.ext.autodoc', 
-    'sphinx.ext.napoleon',  
-    'sphinx.ext.viewcode',  
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
+    "sphinx_autodoc_typehints",
+    "myst_parser",
 ]
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-language = 'en'
+autosummary_generate = True
+autodoc_member_order = "bysource"
+autodoc_typehints = "description"
+autodoc_default_options = {
+    "members": True,
+    "show-inheritance": True,
+}
 
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+templates_path = []
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-html_theme = 'sphinx_rtd_theme'
-html_static_path = ['_static']
+html_theme = "sphinx_rtd_theme"
+html_static_path = []
+
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".md": "markdown",
+}
