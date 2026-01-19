@@ -22,11 +22,27 @@ _DEFAULT_ENDPOINT_IDENTIFIERS = {
 
 
 class EndpointSetter:
+    """
+    Custom endpoint setter for the Ticket API
+
+    :arg client: Ticket client instance
+    :type client: TicketClient
+    """
     def __init__(self, client: "TicketClient") -> None:
         self._client = client
 
     
     def ticket_create(self, *, endpoint: str, method: str = "POST") -> Endpoint:
+        """
+        Sets a custom endpoint for creating tickets
+
+        :param endpoint: Custom endpoint for creating tickets
+        :type endpoint: str
+        :param method: HTTP method for creating tickets, defaults to POST
+        :type method: str
+        :return: Endpoint object
+        :rtype: Endpoint
+        """
         return self._client.register_endpoint("ticket_create", method, endpoint)
 
     def ticket_get(
@@ -36,6 +52,18 @@ class EndpointSetter:
         identifier: str = "ticket_id",
         method: str = "GET",
     ) -> Endpoint:
+        """
+        Sets a custom endpoint for retrieving a ticket.
+
+        :param endpoint: Custom endpoint path
+        :type endpoint: str
+        :param identifier: Identifier for the ticket ID in the endpoint path
+        :type identifier: str
+        :param method: HTTP method for the endpoint, defaults to GET
+        :type method: str
+        :return: Registered endpoint
+        :rtype: Endpoint
+        """
         endpoint_obj = self._client.register_endpoint(
             "ticket_get",
             method,
@@ -51,6 +79,18 @@ class EndpointSetter:
         identifier: str = "ticket_id",
         method: str = "POST",
     ) -> Endpoint:
+        """
+        Sets a custom endpoint for updating a ticket.
+
+        :param endpoint: Custom endpoint path
+        :type endpoint: str
+        :param identifier: Identifier for the ticket ID in the endpoint path
+        :type identifier: str
+        :param method: HTTP method for the endpoint, defaults to POST
+        :type method: str
+        :return: Registered endpoint
+        :rtype: Endpoint
+        """
         endpoint_obj = self._client.register_endpoint(
             "ticket_update",
             method,
@@ -63,6 +103,12 @@ class EndpointSetter:
 
 
 class EndpointsRegistry:
+    """
+    Object representing the registry of API endpoints for the Ticket API
+
+    :arg base_path: Base path for the endpoints, defaults to an empty string
+    :type base_path: str
+    """
     def __init__(
         self,
         *,

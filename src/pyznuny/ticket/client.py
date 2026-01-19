@@ -33,7 +33,20 @@ else:
 
 class TicketClient:
     """
-    Docstring for TicketClient
+    Represents a client for interacting with the Ticket API
+
+    :param base_url: Base URL for the Ticket API which the client will connect to
+    :type base_url: str | None
+    :param username: Username for authentication
+    :type username: str | None
+    :param password: Password for authentication
+    :type password: str | None
+    :param endpoints: Custom endpoints registry
+    :type endpoints: EndpointsRegistry | None
+    :param timeout: Request timeout
+    :type timeout: float | None
+    :param headers: Custom headers
+    :type headers: Mapping[str, str] | None
     """
     def __init__(
         self,
@@ -70,18 +83,56 @@ class TicketClient:
         return self._endpoints
 
     def register_endpoint(self, name: str, method: str, path: str) -> Endpoint:
+        """
+        Registers a custom endpoint for the Ticket API
+
+        :param name: Name of the endpoint
+        :type name: str
+        :param method: HTTP method for the endpoint
+        :type method: str
+        :param path: Endpoint path
+        :type path: str
+        :return: Registered endpoint
+        :rtype: Endpoint
+        """
         return self._endpoints.register(Endpoint(name=name, method=method, path=path))
 
     def set_endpoint_identifier(self, name: str, identifier: str) -> None:
+        """
+        Sets a custom identifier for an endpoint
+
+        :param name: Name of the endpoint
+        :type name: str
+        :param identifier: Custom identifier for the endpoint
+        :type identifier: str
+        """
         self._endpoint_identifiers[name] = identifier
 
     def endpoint_identifier(self, name: str) -> str:
+        """
+        Returns the custom identifier for an endpoint
+
+        :param name: Name of the endpoint
+        :type name: str
+        :return: Custom identifier for the endpoint
+        :rtype: str
+        """
         try:
             return self._endpoint_identifiers[name]
         except KeyError as exc:
             raise KeyError(f"Endpoint identifier not registered: {name}") from exc
 
     def login(self, username: str, password: str) -> httpx.Response:
+        """
+        Creates a new session with the given username and password.
+
+        :param username: Username for authentication
+        :type username: str
+        :param password: Password for authentication
+        :type password: str
+        :return: Response object containing session details
+        :rtype: Response
+        """
         response = self.session.create(username, password)
         self.session_id = response.json().get("SessionID")
 
@@ -95,7 +146,22 @@ class TicketClient:
         path_params: Mapping[str, Any] | None = None,
         **kwargs: Any,
     ) -> httpx.Response:
-        
+        """
+        Sends a request to the Ticket API
+
+        :param endpoint_name: Name of the endpoint
+        :type endpoint_name: str
+        :param method: HTTP method for the request, defaults to None
+        :type method: str | None
+        :param path: Custom endpoint path, defaults to None
+        :type path: str | None
+        :param path_params: Parameters for the endpoint path, defaults to None
+        :type path_params: Mapping[str, Any] | None
+        :param kwargs: Additional keyword arguments for the request
+        :type kwargs: Any
+        :return: Response object
+        :rtype: httpx.Response
+        """
         endpoint_method = method or self._endpoints.method_for(endpoint_name)
         endpoint_path = path or self._endpoints.path_for(endpoint_name)
         
@@ -115,6 +181,9 @@ class TicketClient:
         raise TicketClientError(error)
 
     def close(self) -> None:
+        """
+        Closes the client connection
+        """
         self._client.close()
 
     def __enter__(self) -> "TicketClient":

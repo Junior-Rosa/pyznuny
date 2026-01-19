@@ -48,6 +48,16 @@ def _join_base_path(base_path: str, endpoint_path: str) -> str:
 
 @dataclass(frozen=True, slots=True)
 class Endpoint:
+    """
+    Object representing an API endpoint
+
+    :arg name: Name of the endpoint
+    :type name: str
+    :arg method: HTTP method for the endpoint
+    :type method: str
+    :arg path: Endpoint path
+    :type path: str
+    """
     name: str
     method: str
     path: str
@@ -57,6 +67,14 @@ class Endpoint:
         object.__setattr__(self, "path", _normalize_path(self.path))
 
     def full_path(self, base_path: str = "") -> str:
+        """
+        Returns the full path for the endpoint
+
+        :param base_path: Base path for the endpoint, defaults to an empty string
+        :type base_path: str
+        :return: Full path for the endpoint
+        :rtype: str
+        """
         return _join_base_path(base_path, self.path)
 
 
