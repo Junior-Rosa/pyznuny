@@ -41,11 +41,11 @@ class TicketClient:
     :type username: str | None
     :param password: Password for authentication
     :type password: str | None
-    :param endpoints: Custom endpoints registry
+    :param endpoints: Optional custom endpoints registry
     :type endpoints: EndpointsRegistry | None
     :param timeout: Request timeout
     :type timeout: float | None
-    :param headers: Custom headers
+    :param headers: Optional custom headers
     :type headers: Mapping[str, str] | None
     """
     def __init__(
