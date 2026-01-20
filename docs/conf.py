@@ -44,6 +44,9 @@ templates_path = []
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "sphinx_rtd_theme"
+html_theme_options = {
+    "navigation_depth": 2,
+}
 html_static_path = []
 
 source_suffix = {
