@@ -1,5 +1,5 @@
-Quick Start
-===========
+Installation
+============
 
 To install pyznuny, run this command in your terminal:
 
