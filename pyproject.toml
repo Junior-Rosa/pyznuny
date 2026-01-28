@@ -1,6 +1,6 @@
 [project]
 name = "pyznuny"
-version = "0.0.1"
+version = "0.0.3"
 description = "A Python client for interacting with the Znuny ticketing system API."
 authors = [
     { name = "Junior Rosa", email = "jr.dasrosas@gmail.com" },
