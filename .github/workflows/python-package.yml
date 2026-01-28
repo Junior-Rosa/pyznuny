@@ -29,7 +29,7 @@ jobs:
         curl -LsSf https://astral.sh/uv/install.sh | sh
     - name: Install dependencies
       run: |
-        uv pin ${{ matrix.python-version }}
+        uv python pin ${{ matrix.python-version }}
         uv sync
     - name: Lint with flake8
       run: |
