@@ -7,7 +7,7 @@ authors = [
     { name = "Pablo Gascon", email = "pablogasconiel445@gmail.com" }
 ]
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.9"
 dependencies = [
     "httpx>=0.28.1",
     "pydantic>=2.12.5",
