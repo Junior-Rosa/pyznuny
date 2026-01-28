@@ -1,3 +1,3 @@
-# from .ticket.client import TicketClient
+from .ticket.client import TicketClient
 
-# __all__ = ["TicketClient"]
+__all__ = ["TicketClient"]

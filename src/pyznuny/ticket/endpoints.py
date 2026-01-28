@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Iterable, Mapping, MutableMapping
 
 from .models import Endpoint
-from typing import Iterable, Mapping, MutableMapping, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pyznuny.ticket.client import TicketClient

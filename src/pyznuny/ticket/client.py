@@ -10,23 +10,35 @@ if __name__ == "__main__" and __package__ is None:
     import sys
 
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-    from pyznuny.ticket.endpoints import Endpoint, EndpointsRegistry,EndpointSetter, _DEFAULT_ENDPOINT_IDENTIFIERS, _DEFAULT_ENDPOINTS
+    from pyznuny.ticket.endpoints import (
+        _DEFAULT_ENDPOINT_IDENTIFIERS,
+        _DEFAULT_ENDPOINTS,
+        Endpoint,
+        EndpointSetter,
+        EndpointsRegistry,
+    )
+    from pyznuny.ticket.exceptions import TicketClientError
     from pyznuny.ticket.models import (
         TicketCreateArticle,
         TicketCreatePayload,
         TicketCreateTicket,
     )
-    from pyznuny.ticket.exceptions import TicketClientError
-    from pyznuny.ticket.routes import TicketRoutes, SessionRoutes
+    from pyznuny.ticket.routes import SessionRoutes, TicketRoutes
 else:
-    from .endpoints import Endpoint, EndpointsRegistry,EndpointSetter, _DEFAULT_ENDPOINT_IDENTIFIERS, _DEFAULT_ENDPOINTS
+    from .endpoints import (
+        _DEFAULT_ENDPOINT_IDENTIFIERS,
+        _DEFAULT_ENDPOINTS,
+        Endpoint,
+        EndpointSetter,
+        EndpointsRegistry,
+    )
+    from .exceptions import TicketClientError
     from .models import (
         TicketCreateArticle,
         TicketCreatePayload,
         TicketCreateTicket,
     )
-    from .routes import TicketRoutes, SessionRoutes
-    from .exceptions import TicketClientError
+    from .routes import SessionRoutes, TicketRoutes
 
 
 
@@ -171,8 +183,14 @@ class TicketClient:
             endpoint_path = endpoint_path.format(**path_params)
         response = self._client.request(endpoint_method, endpoint_path, **kwargs)
         
-        response.raise_for_status()
-        if error := response.json().get("Error"):
+        try:
+            response.raise_for_status()
+        except httpx.HTTPStatusError:
+            try:
+                error = response.json().get("Error")
+            except Exception:
+                error = response.text
+            # TODO: improve error to handle status codes
             self._raise_error(error)
             
         return response
